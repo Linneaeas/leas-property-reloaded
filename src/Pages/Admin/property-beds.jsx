@@ -3,60 +3,56 @@ import {
   saveBedsToLocalStorage,
   getBedsFromLocalStorage,
 } from "../../Components/local-storage";
-import { EditButton, SaveButton, DeleteButton, AddButton } from "../../Components/buttons";
+import {
+  EditButton,
+  SaveButton,
+  DeleteButton,
+  AddButton,
+} from "../../Components/buttons";
 import OutsideClickListener from "../../Components/event-listeners";
 
-function DataTableRow({
-    item,
-    beds,
-    onEdit,
-    onDelete,
-    onSave,
-    setBeds,
-    }) 
-    {
-        
-        
-          const handleBedSizeChange = (e) => {
-            const updatedBeds = beds.map((bed) =>
-              bed.id === item.id
-                ? { ...bed, selectedBedSize: e.target.value }
-                : bed
-            );
-            setBeds(updatedBeds);
-          };
-        
-          const handleBedPersonsChange = (e) => {
-            const updatedBeds = beds.map((bed) =>
-              bed.id === item.id
-                ? { ...bed, selectedBedPersons: parseInt(e.target.value, 10) || 0 }
-                : bed
-            );
-            setBeds(updatedBeds);
-          };
-   
-    return (
-      <tr className="DatatableRowOnEdit" key={item.id}>
-        <td className="EditBTNBox">
-          <EditButton onEdit={() => onEdit(item.id)} />
-        </td>
-        <td>
-          {item.isEditing ? (
-            <input
-              type="text"
-              value={item.editedName}
-              onChange={(e) => {
-                const updatedBeds = beds.map((bed) =>
-                  bed.id === item.id
-                    ? { ...bed, editedName: e.target.value }
-                    : bed
-                );
-                setBeds(updatedBeds);
-              }}
-              onClick={(e) => e.stopPropagation()}/>
-          ) : ( item.bedName)}
-        </td>
-        <td className="BedSizeBox">
+function DataTableRow({ item, beds, onEdit, onDelete, onSave, setBeds }) {
+  const handleBedSizeChange = (e) => {
+    const updatedBeds = beds.map((bed) =>
+      bed.id === item.id ? { ...bed, selectedBedSize: e.target.value } : bed
+    );
+    setBeds(updatedBeds);
+  };
+  const handleBedPersonsChange = (e) => {
+    const updatedBeds = beds.map((bed) =>
+      bed.id === item.id
+        ? { ...bed, selectedBedPersons: parseInt(e.target.value, 10) || 0 }
+        : bed
+    );
+    setBeds(updatedBeds);
+  };
+
+  return (
+    <tr className="DatatableRowOnEdit" key={item.id}>
+      <td className="EditBTNBox">
+        <EditButton onEdit={() => onEdit(item.id)} />
+      </td>
+      <td>
+        {item.isEditing ? (
+          <input
+            className="NameBox"
+            type="text"
+            value={item.editedName}
+            onChange={(e) => {
+              const updatedBeds = beds.map((bed) =>
+                bed.id === item.id
+                  ? { ...bed, editedName: e.target.value }
+                  : bed
+              );
+              setBeds(updatedBeds);
+            }}
+            onClick={(e) => e.stopPropagation()}
+          />
+        ) : (
+          item.bedName
+        )}
+      </td>
+      <td className="BedSizeBox">
         {item.isEditing ? (
           <div className="InputWithDatalist">
             <input
@@ -88,62 +84,54 @@ function DataTableRow({
           item.selectedBedPersons || "N/A"
         )}
       </td>
-        
-          {item.isEditing && (
-          <td className="SaveOrDeleteBTNBox">
-              <DeleteButton onDelete={() => onDelete(item.id)} />
-              <SaveButton onSave={() => onSave(item.id)} />
-           </td>
-           )}
-      </tr> 
-    ); 
-    }
 
+      {item.isEditing && (
+        <td className="SaveOrDeleteBTNBox">
+          <DeleteButton onDelete={() => onDelete(item.id)} />
+          <SaveButton onSave={() => onSave(item.id)} />
+        </td>
+      )}
+    </tr>
+  );
+}
 
-  function DataTable({
-    beds,
-    onEdit,
-    onDelete,
-    onSave,
-    setBeds,
-  }) 
-  {
-    if (!beds) {
-        return (
-          <div className="error-message">
-            Error: Beds data is not available. Please try again later.
-          </div>
-        );
-      }
+function DataTable({ beds, onEdit, onDelete, onSave, setBeds }) {
+  if (!beds) {
     return (
-      <table className="PropertyTable">
-        <thead>
-          <tr>
-            <th></th>
-            <th className="ColoumnHeadline">Name:</th>
-            <th className="ColoumnHeadline">Size:</th>
-            <th className="ColoumnHeadline">Prs:</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {beds.map((item) => (
-            <DataTableRow
-              item={item}
-              key={item.id}
-              onEdit={onEdit}
-              onDelete={onDelete}
-              onSave={onSave}
-              beds={beds}
-              setBeds={setBeds}/>
-          ))}
-        </tbody>
-      </table>
-     ); 
-    }
-    
+      <div className="error-message">
+        Error: Beds data is not available. Please try again later.
+      </div>
+    );
+  }
+  return (
+    <table className="PropertyTable">
+      <thead>
+        <tr>
+          <th></th>
+          <th className="ColoumnHeadline">Name:</th>
+          <th className="ColoumnHeadline">Size:</th>
+          <th className="ColoumnHeadline">Prs:</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {beds.map((item) => (
+          <DataTableRow
+            item={item}
+            key={item.id}
+            onEdit={onEdit}
+            onDelete={onDelete}
+            onSave={onSave}
+            beds={beds}
+            setBeds={setBeds}
+          />
+        ))}
+      </tbody>
+    </table>
+  );
+}
 
-  export function AdminPropertyBeds() {
+export function AdminPropertyBeds() {
   const [beds, setBeds] = useState(getBedsFromLocalStorage() || []);
   const [showInput, setShowInput] = useState(false);
   const [newBedName, setNewBedName] = useState("");
@@ -198,108 +186,104 @@ function DataTableRow({
       alert("Please enter a bed name, size, and amount of persons.");
     }
   };
-       
-         
-  
-          const handleEdit = (id) => {
-            const updatedBeds = beds.map((item) => {
-              if (item.id === id) {
-                setIsEditingBed(true);
-                return {
-                  ...item,
-                  isEditing: !item.isEditing,
-                  editedName: item.bedName,
-                };
-              }
-              return item;
-            });
 
-            const editedBed = updatedBeds.find((item) => item.id === id);
-            setNewBed({
-              ...editedBed,
-              selectedBedSize: editedBed.selectedBedSize || "",
-              selectedBedPersons: editedBed.selectedBedPersons || "",
-            });
-        
-            setBeds(updatedBeds);
-            saveBedsToLocalStorage(updatedBeds);
-          };
-        
-      
-          const handleSave = (id) => {
-            const uniqueId = new Date().getTime();
-            const updatedBeds = beds.map((item) => {
-              if (item.id === id) {
-                setIsEditingBed(false);
-                return {
-                  ...item,
-                  isEditing: false,
-                  bedName: item.editedName,
-                  selectedBedSize: item.selectedBedSize || "",
-                  id: uniqueId,
-                  selectedBedPersons: item.selectedBedPersons || "",
-                };
-              }
-              return item;
-            });
-            setBeds(updatedBeds);
-            saveBedsToLocalStorage(updatedBeds);
-          };
-      
-      
-          const handleDelete = (id) => {
-            const updatedBeds = beds.filter((item) => item.id !== id);
-            setBeds(updatedBeds);
-            saveBedsToLocalStorage(updatedBeds);
-          };
-          const handleOutsideClick = () => {
-            if (isAddingNewBed && !isEditingBed) {
-              setIsAddingNewBed(false);
-              setShowInput(false);
-            }
-        
-            if (isEditingBed) {
-              const updatedBeds = beds.map((item) => ({
-                ...item,
-                isEditing: false,
-              }));
-              setBeds(updatedBeds);
-              setIsEditingBed(false);
-            }
-          };
+  const handleEdit = (id) => {
+    const updatedBeds = beds.map((item) => {
+      if (item.id === id) {
+        setIsEditingBed(true);
+        return {
+          ...item,
+          isEditing: !item.isEditing,
+          editedName: item.bedName,
+        };
+      }
+      return item;
+    });
 
-    return (
-        <div className="PropertyContainer">
-          <OutsideClickListener onOutsideClick={handleOutsideClick}>
-            <div className="PropertyContent">
-              <h1>BEDS</h1>
-              <DataTable
-                beds={beds} 
-                onEdit={handleEdit}
-                onSave={handleSave}
-                onDelete={handleDelete}
-                setBeds={setBeds}
-                isAddingNewBed={isAddingNewBed}
-                isEditingBed={isEditingBed}
-                handleOutsideClick={handleOutsideClick}
-                newBed={newBed}
+    const editedBed = updatedBeds.find((item) => item.id === id);
+    setNewBed({
+      ...editedBed,
+      selectedBedSize: editedBed.selectedBedSize || "",
+      selectedBedPersons: editedBed.selectedBedPersons || "",
+    });
+
+    setBeds(updatedBeds);
+    saveBedsToLocalStorage(updatedBeds);
+  };
+
+  const handleSave = (id) => {
+    const uniqueId = new Date().getTime();
+    const updatedBeds = beds.map((item) => {
+      if (item.id === id) {
+        setIsEditingBed(false);
+        return {
+          ...item,
+          isEditing: false,
+          bedName: item.editedName,
+          selectedBedSize: item.selectedBedSize || "",
+          id: uniqueId,
+          selectedBedPersons: item.selectedBedPersons || "",
+        };
+      }
+      return item;
+    });
+    setBeds(updatedBeds);
+    saveBedsToLocalStorage(updatedBeds);
+  };
+
+  const handleDelete = (id) => {
+    const updatedBeds = beds.filter((item) => item.id !== id);
+    setBeds(updatedBeds);
+    saveBedsToLocalStorage(updatedBeds);
+  };
+  const handleOutsideClick = () => {
+    if (isAddingNewBed && !isEditingBed) {
+      setIsAddingNewBed(false);
+      setShowInput(false);
+    }
+
+    if (isEditingBed) {
+      const updatedBeds = beds.map((item) => ({
+        ...item,
+        isEditing: false,
+      }));
+      setBeds(updatedBeds);
+      setIsEditingBed(false);
+    }
+  };
+
+  return (
+    <div className="PropertyContainer">
+      <OutsideClickListener onOutsideClick={handleOutsideClick}>
+        <div className="PropertyContent">
+          <h1>BEDS</h1>
+          <DataTable
+            beds={beds}
+            onEdit={handleEdit}
+            onSave={handleSave}
+            onDelete={handleDelete}
+            setBeds={setBeds}
+            isAddingNewBed={isAddingNewBed}
+            isEditingBed={isEditingBed}
+            handleOutsideClick={handleOutsideClick}
+            newBed={newBed}
+          />
+          {!showInput && <AddButton onAdd={handleAddButtonClick} />}
+          {showInput && (
+            <div className="AddContent">
+              <input
+                className="NameBox"
+                type="text"
+                value={newBedName}
+                onChange={(e) => setNewBedName(e.target.value)}
+                placeholder="Enter bed name"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsAddingNewBed(true);
+                }}
+                onFocus={(e) => e.stopPropagation()}
               />
-              {!showInput && <AddButton onAdd={handleAddButtonClick} />}
-              {showInput && (
-                <div className="AddContent">
-                  <input
-                    className="BedName"
-                    type="text"
-                    value={newBedName}
-                    onChange={(e) => setNewBedName(e.target.value)}
-                    placeholder="Enter bed name"
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        setIsAddingNewBed(true);
-                      }}
-                    onFocus={(e) => e.stopPropagation()}
-                  />
-                  <input
+              <input
                 className="SmallInput"
                 type="text"
                 value={newBed.selectedBedSize}
@@ -347,11 +331,11 @@ function DataTableRow({
                 placeholder="PRS"
                 maxLength="3"
               />
-                  <SaveButton onSave={handleAddBed} />
-                </div>
-              )}
+              <SaveButton onSave={handleAddBed} />
             </div>
-          </OutsideClickListener>
+          )}
         </div>
-      );
-    }
+      </OutsideClickListener>
+    </div>
+  );
+}

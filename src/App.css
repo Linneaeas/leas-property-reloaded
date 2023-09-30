@@ -94,6 +94,9 @@ input[type="text"],
 .SmallInput {
   width: 3rem;
 }
+.NameBox {
+  width: 8em;
+}
 /*LOGIN PAGE*/
 .LoginPageHeader {
   display: flex;
