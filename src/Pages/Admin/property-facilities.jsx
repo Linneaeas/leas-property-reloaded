@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import {
-  saveRoomtypesToLocalStorage,
-  getRoomtypesFromLocalStorage,
+  saveFacilitiesToLocalStorage,
+  getFacilitiesFromLocalStorage,
 } from "../../Components/local-storage";
 import { EditButton, SaveButton, DeleteButton, AddButton } from "../../Components/buttons";
 import OutsideClickListener from "../../Components/event-listeners";
 
 function DataTableRow({
     item,
-    roomtypes,
+    facilities,
     onEdit,
     onDelete,
     onSave,
-    setRoomtypes,
+    setFacilities,
     }) 
     {
    
@@ -27,15 +27,15 @@ function DataTableRow({
               type="text"
               value={item.editedName}
               onChange={(e) => {
-                const updatedRoomtypes = roomtypes.map((roomtype) =>
-                  roomtype.id === item.id
-                    ? { ...roomtype, editedName: e.target.value }
-                    : roomtype
+                const updatedFacilities = facilities.map((facilitie) =>
+                facilitie.id === item.id
+                    ? { ...facilitie, editedName: e.target.value }
+                    : facilitie
                 );
-                setRoomtypes(updatedRoomtypes);
+                setFacilities(updatedFacilities);
               }}
               onClick={(e) => e.stopPropagation()}/>
-          ) : (item.roomtypeName)}
+          ) : ( item.facilitieName)}
         </td>
         
           {item.isEditing && (
@@ -50,17 +50,17 @@ function DataTableRow({
 
 
   function DataTable({
-    roomtypes,
+    facilities,
     onEdit,
     onDelete,
     onSave,
-    setRoomtypes
+    setFacilities
   }) 
   {
-    if (!roomtypes) {
+    if (!facilities) {
         return (
           <div className="error-message">
-            Error: Roomtypes data is not available. Please try again later.
+            Error: Facility data is not available. Please try again later.
           </div>
         );
       }
@@ -74,15 +74,15 @@ function DataTableRow({
           </tr>
         </thead>
         <tbody>
-          {roomtypes.map((item) => (
+          {facilities.map((item) => (
             <DataTableRow
               item={item}
               key={item.id}
               onEdit={onEdit}
               onDelete={onDelete}
               onSave={onSave}
-              roomtypes={roomtypes}
-              setRoomtypes={setRoomtypes}/>
+              facilities={facilities}
+              setFacilities={setFacilities}/>
           ))}
         </tbody>
       </table>
@@ -90,125 +90,125 @@ function DataTableRow({
     }
     
 
-  export function AdminPropertyRoomtypes() {
-  const [ roomtypes, setRoomtypes] = useState(getRoomtypesFromLocalStorage() || []);
+  export function AdminPropertyFacilities() {
+  const [facilities, setFacilities] = useState(getFacilitiesFromLocalStorage() || []);
   const [showInput, setShowInput] = useState(false);
-  const [newRoomtypeName, setNewRoomtypeName] = useState("");
-  const [isAddingNewRoomtype, setIsAddingNewRoomtype] = useState(false);
-  const [isEditingRoomtype, setIsEditingRoomtype] = useState(false);
+  const [newFacilitieName, setNewFacilitieName] = useState("");
+  const [isAddingNewFacilitie, setIsAddingNewFacilitie] = useState(false);
+  const [isEditingFacilitie, setIsEditingFacilitie] = useState(false);
 
    
     const handleAddButtonClick = () => {
-        const newRoomtype = {
-            id: roomtypes.length + 1,
-            roomtypeName: "",
+        const newFacilitie = {
+            id: facilities.length + 1,
+            facilitieName: "",
             isEditing: false,
             editedName: "",
           };
       
-          setNewRoomtype(newRoomtype);
-          setNewRoomtypeName("");
+          setNewFacilitie(newFacilitie);
+          setNewFacilitieName("");
           setShowInput(true);
-          setIsAddingNewRoomtype(true);
+          setIsAddingNewFacilitie(true);
         };
 
 
-        const handleAddRoomtype = () => {
-            const isDuplicateName = roomtypes.some(
-              (roomtype) => roomtype.roomtypeName === newRoomtypeName
+        const handleAddFacilitie = () => {
+            const isDuplicateName = facilities.some(
+              (facilitie) => facilitie.facilitieName === newFacilitieName
             );
         
             if (isDuplicateName) {
-              alert("Roomtype with this name already exists. Please choose a new name.");
+              alert("Facility with this name already exists. Please choose a new name.");
               return;
             }
-            if (newRoomtypeName.trim() !== "") {
-              const newRoomtypeToAdd = {
-                id: newRoomtypeName,
-                roomtypeName: newRoomtypeName,
+            if (newFacilitieName.trim() !== "") {
+              const newFacilitieToAdd = {
+                id: newFacilitieName,
+                facilitieName: newFacilitieName,
                 isEditing: false,
                 editedName: "",
               };
-              const updatedRoomtypes = [...roomtypes, newRoomtypeToAdd];
-              setRoomtypes(updatedRoomtypes);
-              saveRoomtypesToLocalStorage(updatedRoomtypes);
-              setNewRoomtype({
-                ...newRoomtypeToAdd,
-                roomtypeName: "",
+              const updatedFacilities = [...facilities, newFacilitieToAdd];
+              setFacilities(updatedFacilities);
+              saveFacilitiesToLocalStorage(updatedFacilities);
+              setNewFacilitie({
+                ...newFacilitieToAdd,
+                facilitieName: "",
                 isEditing: false,
                 editedName: "",
               });
               setShowInput(false);
-              setIsAddingNewRoomtype(false);
+              setIsAddingNewFacilitie(false);
             } else {
-              alert("Please enter a roomtype name.");
+              alert("Please enter a facility name.");
             }
           };
 
-          const [newRoomtype, setNewRoomtype] = useState({
-            id: roomtypes.length + 1,
-            roomtypeName: newRoomtypeName,
+          const [newFacilitie, setNewFacilitie] = useState({
+            id: facilities.length + 1,
+            facilitieName: newFacilitieName,
             isEditing: false,
             editedName: "",
           });
   
           const handleEdit = (id) => {
-            const updatedRoomtypes = roomtypes.map((item) => {
+            const updatedFacilities = facilities.map((item) => {
               if (item.id === id) {
-                setIsEditingRoomtype(true);
+                setIsEditingFacilitie(true);
                 return {
                   ...item,
                   isEditing: !item.isEditing,
-                  editedName: item.roomtypeName,
+                  editedName: item.facilitieName,
                 };
               }
               return item;
             });
 
-            const editedRoomtype = updatedRoomtypes.find((item) => item.id === id);
-            setNewRoomtype(editedRoomtype);
+            const editedFacilitie = updatedFacilities.find((item) => item.id === id);
+            setNewFacilitie(editedFacilitie);
         
-            setRoomtypes(updatedRoomtypes);
-            saveRoomtypesToLocalStorage(updatedRoomtypes);
+            setFacilities(updatedFacilities);
+            saveFacilitiesToLocalStorage(updatedFacilities);
           };
         
       
           const handleSave = (id) => {
-            const updatedRoomtypes = roomtypes.map((item) => {
+            const updatedFacilities = facilities.map((item) => {
               if (item.id === id) {
-                setIsEditingRoomtype(false);
+                setIsEditingFacilitie(false);
                 return {
                   ...item,
                   isEditing: false,
-                  roomtypeName: item.editedName,
+                  facilitieName: item.editedName,
                 };
               }
               return item;
             });
         
-            setRoomtypes(updatedRoomtypes);
-            saveRoomtypesToLocalStorage(updatedRoomtypes);
+            setFacilities(updatedFacilities);
+            saveFacilitiesToLocalStorage(updatedFacilities);
           };
       
       
           const handleDelete = (id) => {
-            const updatedRoomtypes = roomtypes.filter((item) => item.id !== id);
-            setRoomtypes(updatedRoomtypes);
-            saveRoomtypesToLocalStorage(updatedRoomtypes);
+            const updatedFacilities = facilities.filter((item) => item.id !== id);
+            setFacilities(updatedFacilities);
+            saveFacilitiesToLocalStorage(updatedFacilities);
           };
           const handleOutsideClick = () => {
-            if (isAddingNewRoomtype && !isEditingRoomtype) {
-              setIsAddingNewRoomtype(false);
+            if (isAddingNewFacilitie && !isEditingFacilitie) {
+              setIsAddingNewFacilitie(false);
               setShowInput(false);
             }
         
-            if (isEditingRoomtype) {
-              const updatedRoomtypes = roomtypes.map((item) => ({
+            if (isEditingFacilitie) {
+              const updatedFacilities = facilities.map((item) => ({
                 ...item,
                 isEditing: false,
               }));
-              setRoomtypes(updatedRoomtypes);
-              setIsEditingRoomtype(false);
+              setFacilities(updatedFacilities);
+              setIsEditingFacilitie(false);
             }
           };
 
@@ -216,34 +216,34 @@ function DataTableRow({
         <div className="PropertyContainer">
           <OutsideClickListener onOutsideClick={handleOutsideClick}>
             <div className="PropertyContent">
-              <h1>ROOMTYPES</h1>
+              <h1>FACILITIES</h1>
               <DataTable
-                roomtypes={roomtypes} 
+                facilities={facilities} 
                 onEdit={handleEdit}
                 onSave={handleSave}
                 onDelete={handleDelete}
-                setRoomtypes={setRoomtypes}
-                isAddingNewSRoomtype={isAddingNewRoomtype}
-                isEditingRoomtype={isEditingRoomtype}
+                setFacilities={setFacilities}
+                isAddingNewFacilitie={isAddingNewFacilitie}
+                isEditingFacilitie={isEditingFacilitie}
                 handleOutsideClick={handleOutsideClick}
-                newRoomtype={newRoomtype}
+                newFacilitie={newFacilitie}
               />
               {!showInput && <AddButton onAdd={handleAddButtonClick} />}
               {showInput && (
                 <div className="AddContent">
                   <input
-                    className="RoomtypeName"
+                    className="FacilitieName"
                     type="text"
-                    value={newRoomtypeName}
-                    onChange={(e) => setNewRoomtypeName(e.target.value)}
-                    placeholder="Enter roomtype name"
+                    value={newFacilitieName}
+                    onChange={(e) => setNewFacilitieName(e.target.value)}
+                    placeholder="Enter facility name"
                     onClick={(e) => {
                         e.stopPropagation();
-                        setIsAddingNewRoomtype(true);
+                        setIsAddingNewFacilitie(true);
                       }}
                     onFocus={(e) => e.stopPropagation()}
                   />
-                  <SaveButton onSave={handleAddRoomtype} />
+                  <SaveButton onSave={handleAddFacilitie} />
                 </div>
               )}
             </div>

@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import {
-  saveSuitesToLocalStorage,
-  getSuitesFromLocalStorage,
+  saveStandardsToLocalStorage,
+  getStandardsFromLocalStorage,
 } from "../../Components/local-storage";
 import { EditButton, SaveButton, DeleteButton, AddButton } from "../../Components/buttons";
 import OutsideClickListener from "../../Components/event-listeners";
 
 function DataTableRow({
     item,
-    suites,
+    standards,
     onEdit,
     onDelete,
     onSave,
-    setSuites,
+    setStandards,
     }) 
     {
    
@@ -27,15 +27,15 @@ function DataTableRow({
               type="text"
               value={item.editedName}
               onChange={(e) => {
-                const updatedSuites = suites.map((suite) =>
-                  suite.id === item.id
-                    ? { ...suite, editedName: e.target.value }
-                    : suite
+                const updatedStandards = standards.map((standard) =>
+                  standard.id === item.id
+                    ? { ...standard, editedName: e.target.value }
+                    : standard
                 );
-                setSuites(updatedSuites);
+                setStandards(updatedStandards);
               }}
               onClick={(e) => e.stopPropagation()}/>
-          ) : ( item.suiteName)}
+          ) : ( item.standardName)}
         </td>
         
           {item.isEditing && (
@@ -50,17 +50,17 @@ function DataTableRow({
 
 
   function DataTable({
-    suites,
+    standards,
     onEdit,
     onDelete,
     onSave,
-    setSuites
+    setStandards
   }) 
   {
-    if (!suites) {
+    if (!standards) {
         return (
           <div className="error-message">
-            Error: Suites data is not available. Please try again later.
+            Error: Standards data is not available. Please try again later.
           </div>
         );
       }
@@ -74,15 +74,15 @@ function DataTableRow({
           </tr>
         </thead>
         <tbody>
-          {suites.map((item) => (
+          {standards.map((item) => (
             <DataTableRow
               item={item}
               key={item.id}
               onEdit={onEdit}
               onDelete={onDelete}
               onSave={onSave}
-              suites={suites}
-              setSuites={setSuites}/>
+              standards={standards}
+              setStandards={setStandards}/>
           ))}
         </tbody>
       </table>
@@ -90,125 +90,125 @@ function DataTableRow({
     }
     
 
-  export function AdminPropertySuites() {
-  const [suites, setSuites] = useState(getSuitesFromLocalStorage() || []);
+  export function AdminPropertyStandards() {
+  const [standards, setStandards] = useState(getStandardsFromLocalStorage() || []);
   const [showInput, setShowInput] = useState(false);
-  const [newSuiteName, setNewSuiteName] = useState("");
-  const [isAddingNewSuite, setIsAddingNewSuite] = useState(false);
-  const [isEditingSuite, setIsEditingSuite] = useState(false);
+  const [newStandardName, setNewStandardName] = useState("");
+  const [isAddingNewStandard, setIsAddingNewStandard] = useState(false);
+  const [isEditingStandard, setIsEditingStandard] = useState(false);
 
    
     const handleAddButtonClick = () => {
-        const newSuite = {
-            id: suites.length + 1,
-            suiteName: "",
+        const newStandard = {
+            id: standards.length + 1,
+            standardName: "",
             isEditing: false,
             editedName: "",
           };
       
-          setNewSuite(newSuite);
-          setNewSuiteName("");
+          setNewStandard(newStandard);
+          setNewStandardName("");
           setShowInput(true);
-          setIsAddingNewSuite(true);
+          setIsAddingNewStandard(true);
         };
 
 
-        const handleAddSuite = () => {
-            const isDuplicateName = suites.some(
-              (suite) => suite.suiteName === newSuiteName
+        const handleAddStandard = () => {
+            const isDuplicateName = standards.some(
+              (standard) => standard.standardName === newStandardName
             );
         
             if (isDuplicateName) {
-              alert("Suite with this name already exists. Please choose a new name.");
+              alert("Standard with this name already exists. Please choose a new name.");
               return;
             }
-            if (newSuiteName.trim() !== "") {
-              const newSuiteToAdd = {
-                id: newSuiteName,
-                suiteName: newSuiteName,
+            if (newStandardName.trim() !== "") {
+              const newStandardToAdd = {
+                id: newStandardName,
+                standardName: newStandardName,
                 isEditing: false,
                 editedName: "",
               };
-              const updatedSuites = [...suites, newSuiteToAdd];
-              setSuites(updatedSuites);
-              saveSuitesToLocalStorage(updatedSuites);
-              setNewSuite({
-                ...newSuiteToAdd,
-                suiteName: "",
+              const updatedStandards = [...standards, newStandardToAdd];
+              setStandards(updatedStandards);
+              saveStandardsToLocalStorage(updatedStandards);
+              setNewStandard({
+                ...newStandardToAdd,
+                standardName: "",
                 isEditing: false,
                 editedName: "",
               });
               setShowInput(false);
-              setIsAddingNewSuite(false);
+              setIsAddingNewStandard(false);
             } else {
-              alert("Please enter a suite name.");
+              alert("Please enter a standard name.");
             }
           };
 
-          const [newSuite, setNewSuite] = useState({
-            id: suites.length + 1,
-            suiteName: newSuiteName,
+          const [newStandard, setNewStandard] = useState({
+            id: standards.length + 1,
+            standardName: newStandardName,
             isEditing: false,
             editedName: "",
           });
   
           const handleEdit = (id) => {
-            const updatedSuites = suites.map((item) => {
+            const updatedStandards = standards.map((item) => {
               if (item.id === id) {
-                setIsEditingSuite(true);
+                setIsEditingStandard(true);
                 return {
                   ...item,
                   isEditing: !item.isEditing,
-                  editedName: item.suiteName,
+                  editedName: item.standardName,
                 };
               }
               return item;
             });
 
-            const editedSuite = updatedSuites.find((item) => item.id === id);
-            setNewSuite(editedSuite);
+            const editedStandard = updatedStandards.find((item) => item.id === id);
+            setNewStandard(editedStandard);
         
-            setSuites(updatedSuites);
-            saveSuitesToLocalStorage(updatedSuites);
+            setStandards(updatedStandards);
+            saveStandardsToLocalStorage(updatedStandards);
           };
         
       
           const handleSave = (id) => {
-            const updatedSuites = suites.map((item) => {
+            const updatedStandards = standards.map((item) => {
               if (item.id === id) {
-                setIsEditingSuite(false);
+                setIsEditingStandard(false);
                 return {
                   ...item,
                   isEditing: false,
-                  suiteName: item.editedName,
+                  standardName: item.editedName,
                 };
               }
               return item;
             });
         
-            setSuites(updatedSuites);
-            saveSuitesToLocalStorage(updatedSuites);
+            setStandards(updatedStandards);
+            saveStandardsToLocalStorage(updatedStandards);
           };
       
       
           const handleDelete = (id) => {
-            const updatedSuites = suites.filter((item) => item.id !== id);
-            setSuites(updatedSuites);
-            saveSuitesToLocalStorage(updatedSuites);
+            const updatedStandards = standards.filter((item) => item.id !== id);
+            setStandards(updatedStandards);
+            saveStandardsToLocalStorage(updatedStandards);
           };
           const handleOutsideClick = () => {
-            if (isAddingNewSuite && !isEditingSuite) {
-              setIsAddingNewSuite(false);
+            if (isAddingNewStandard && !isEditingStandard) {
+              setIsAddingNewStandard(false);
               setShowInput(false);
             }
         
-            if (isEditingSuite) {
-              const updatedSuites = suites.map((item) => ({
+            if (isEditingStandard) {
+              const updatedStandards = standards.map((item) => ({
                 ...item,
                 isEditing: false,
               }));
-              setSuites(updatedSuites);
-              setIsEditingSuite(false);
+              setStandards(updatedStandards);
+              setIsEditingStandard(false);
             }
           };
 
@@ -216,34 +216,34 @@ function DataTableRow({
         <div className="PropertyContainer">
           <OutsideClickListener onOutsideClick={handleOutsideClick}>
             <div className="PropertyContent">
-              <h1>SUITES</h1>
+              <h1>STANDARDS</h1>
               <DataTable
-                suites={suites} 
+                standards={standards} 
                 onEdit={handleEdit}
                 onSave={handleSave}
                 onDelete={handleDelete}
-                setSuites={setSuites}
-                isAddingNewSuite={isAddingNewSuite}
-                isEditingSuite={isEditingSuite}
+                setStandards={setStandards}
+                isAddingNewStandard={isAddingNewStandard}
+                isEditingStandard={isEditingStandard}
                 handleOutsideClick={handleOutsideClick}
-                newSuite={newSuite}
+                newStandard={newStandard}
               />
               {!showInput && <AddButton onAdd={handleAddButtonClick} />}
               {showInput && (
                 <div className="AddContent">
                   <input
-                    className="SuiteName"
+                    className="StandardName"
                     type="text"
-                    value={newSuiteName}
-                    onChange={(e) => setNewSuiteName(e.target.value)}
-                    placeholder="Enter suite name"
+                    value={newStandardName}
+                    onChange={(e) => setNewStandardName(e.target.value)}
+                    placeholder="Enter standard name"
                     onClick={(e) => {
                         e.stopPropagation();
-                        setIsAddingNewSuite(true);
+                        setIsAddingNewStandard(true);
                       }}
                     onFocus={(e) => e.stopPropagation()}
                   />
-                  <SaveButton onSave={handleAddSuite} />
+                  <SaveButton onSave={handleAddStandard} />
                 </div>
               )}
             </div>

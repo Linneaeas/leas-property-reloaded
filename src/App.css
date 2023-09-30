@@ -91,7 +91,9 @@ input[type="text"],
   font-family: inherit;
   font-size: 15px;
 }
-
+.SmallInput {
+  width: 3rem;
+}
 /*LOGIN PAGE*/
 .LoginPageHeader {
   display: flex;
