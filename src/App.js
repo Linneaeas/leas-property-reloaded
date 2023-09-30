@@ -1,24 +1,46 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+import LoginPage from "./Pages/login-page";
+import { AdminNavigation } from "./Pages/Admin/admin-navigation";
 
 function App() {
+  const adminUser = {
+    username: "Admin",
+    password: "admin123",
+  };
+
+  const [user, setUser] = useState({ username: "" });
+  const [error, setError] = useState("");
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  const Login = (details) => {
+    if (
+      details.username === adminUser.username &&
+      details.password === adminUser.password
+    ) {
+      setUser({
+        username: details.username,
+      });
+      setIsAdmin(true);
+    } else {
+      setError("Wrong Username or Password, Please try again");
+    }
+  };
+
+  const Logout = () => {
+    setUser({ username: "" });
+    setIsAdmin(false);
+    setError("");
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <main className="App">
+      {isAdmin ? (
+        <AdminNavigation Logout={Logout} />
+      ) : (
+        <LoginPage Login={Login} error={error} />
+      )}
+    </main>
   );
 }
 

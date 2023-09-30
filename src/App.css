@@ -1,38 +1,172 @@
-.App {
-  text-align: center;
+/* UNIVERSAL */
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+:root {
+  --lightPink: rgb(255, 240, 248);
+  --white: rgb(255, 255, 255);
+  --darkerHover: rgb(244, 161, 206);
+  --darkPink: rgb(196, 96, 149);
+}
+body {
+  background-color: var(--lightPink);
+  font-family: Quicksand;
+}
+h1,
+h2,
+h3,
+h4 {
+  color: var(--darkPink);
+  text-shadow: 2px 2px 2px rgb(196, 96, 149, 0.4);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/*EFFECTS & BUTTONS & ICONS & INPUTS*/
+button:hover,
+input:hover,
+select:hover,
+a:hover {
+  cursor: pointer;
+}
+button:hover,
+a:hover {
+  color: var(--darkerHover);
+  scale: 120%;
+}
+.LoginBTN,
+.LogoutBTN {
+  font-family: inherit;
+  border: none;
+  padding: 10px;
+  color: var(--white);
+}
+.LoginBTN {
+  background-color: var(--darkPink);
+  font-size: 20px;
+  border-radius: 25px;
+}
+.LogoutBTN {
+  font-size: 15px;
+  background: none;
+  float: left;
+}
+.AddBTN,
+.EditBTN,
+.SaveBTN,
+.DeleteBTN {
+  background-size: cover;
+  aspect-ratio: 1;
+  border: none;
+}
+.AddBTN {
+  background-image: url("Images/AddBTN.png");
+  width: 40px;
+}
+.EditBTN {
+  background-image: url("Images/EditBTN.png");
+  width: 20px;
+}
+.SaveBTN {
+  background-image: url("Images/SaveBTN.png");
+  width: 25px;
+}
+.DeleteBTN {
+  background-image: url("Images/DeleteBTN.png");
+  width: 25px;
+}
+.CheckedIcon {
+  width: 20px;
+}
+select,
+input[type="text"],
+[type="password"] {
+  background: rgb(196, 96, 149, 0.4);
+  border-radius: 25px;
+  border: none;
+  height: 30px;
+  font-family: inherit;
+  font-size: 15px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/*LOGIN PAGE*/
+.LoginPageHeader {
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  flex-wrap: wrap;
+  background-color: var(--darkPink);
+  color: var(--white);
+  padding: 0.5rem;
+}
+.LoginFormContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1em;
+}
+.LoginLabel {
+  color: var(--darkPink);
+  font-size: 17px;
 }
 
-.App-link {
-  color: #61dafb;
+/*ADMIN NAVIGATION*/
+.AdminNavigationContainer {
+  background-color: var(--darkPink);
+  color: var(--white);
 }
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.AdminNavigationContent {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  display: flex;
+  gap: 3rem;
+  padding: 0.75rem;
+}
+.NavigationLink {
+  background: none;
+  border: none;
+  text-decoration: none;
+  font-family: inherit;
+  font-size: 20px;
+  color: var(--white);
+}
+/*DROPDOWN*/
+.Dropdown {
+  position: relative;
+}
+.DropdownMenu {
+  position: absolute;
+  left: 0;
+  top: calc(100% + 0.25rem);
+  background-color: var(--lightPink);
+  padding: 0.75rem;
+  border-radius: 0.25rem;
+  box-shadow: 2px 3px 6px 2px rgb(196, 96, 149, 0.4);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-10px);
+  transition: opacity 150ms ease-in-out, transform 150ms ease-in-out;
+  gap: 0.5rem;
+  display: flex;
+  flex-direction: column;
+}
+.DropdownMenu.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  z-index: 1;
+}
+.DropdownLink {
+  background: none;
+  border: none;
+  text-decoration: none;
+  font-family: inherit;
+  color: var(--darkPink);
+  font-size: 17px;
+  padding: 0.25rem 0.75rem 0.25rem 0.75rem;
+  display: flex;
 }
