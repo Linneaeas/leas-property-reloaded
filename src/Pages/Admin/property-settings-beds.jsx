@@ -32,7 +32,7 @@ export function DataTable({
             ...roomtype,
             bedOptions: {
               ...roomtype.bedOptions,
-              [bedId]: value ? parseInt(value, 10) : 0,
+              [bedId]: parseInt(value, 10),
             },
           }
         : roomtype
@@ -63,7 +63,10 @@ export function DataTable({
                     <select
                       className="smallInput"
                       value={
-                        (bed.bedOptions && roomtype.bedOptions[bed.id]) || ""
+                        (bed.bedOptions && roomtype.bedOptions[bed.id]) !==
+                        undefined
+                          ? roomtype.bedOptions[bed.id]
+                          : "no_selection"
                       }
                       onChange={(e) =>
                         handleBedOptionChange(
@@ -85,8 +88,9 @@ export function DataTable({
                   </div>
                 ) : (
                   <div className="OptionChoice">
-                    {roomtype.bedOptions && roomtype.bedOptions[bed.id]
-                      ? `${roomtype.bedOptions[bed.id]} selected`
+                    {roomtype.bedOptions &&
+                    roomtype.bedOptions[bed.id] !== undefined
+                      ? roomtype.bedOptions[bed.id]
                       : "-"}
                   </div>
                 )}

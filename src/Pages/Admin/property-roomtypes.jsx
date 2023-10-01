@@ -222,7 +222,7 @@ export function AdminPropertyRoomtypes() {
             onSave={handleSave}
             onDelete={handleDelete}
             setRoomtypes={setRoomtypes}
-            isAddingNewSRoomtype={isAddingNewRoomtype}
+            isAddingNewRoomtype={isAddingNewRoomtype}
             isEditingRoomtype={isEditingRoomtype}
             handleOutsideClick={handleOutsideClick}
             newRoomtype={newRoomtype}
