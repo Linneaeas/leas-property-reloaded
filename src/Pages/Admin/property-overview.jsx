@@ -53,6 +53,7 @@ export function AdminPropertyOverview() {
 
   useEffect(() => {
     const savedBeds = getBedsFromLocalStorage() || [];
+    console.log("Saved beds:", savedBeds);
     if (savedBeds) {
       setBeds(savedBeds);
     }
@@ -63,10 +64,16 @@ export function AdminPropertyOverview() {
       {propertie.propertieName}
     </th>
   ));
+  const roomtypeHeaders = roomtypes.map((roomtype) => (
+    <th className="ColoumnHeadline" key={roomtype.id}>
+      {roomtype.roomtypeName}
+    </th>
+  ));
 
   const getSuitesFromLocalStorage = () => {
     const suites = JSON.parse(localStorage.getItem("suites"));
     const standards = getStandardsFromLocalStorage() || [];
+    const roomtypes = getRoomtypesFromLocalStorage() || [];
     const facilities = getFacilitiesFromLocalStorage() || [];
     const suiteCapacities = calculateSuiteCapacity(standards, roomtypes, beds);
 
@@ -91,30 +98,16 @@ export function AdminPropertyOverview() {
     return suites;
   };
 
-  const roomtypeHeaders = roomtypes.map((roomtype) => (
-    <th className="ColoumnHeadline" key={roomtype.id}>
-      {roomtype.roomtypeName}
-    </th>
-  ));
-
-  const calculateTotalRoomsInSuite = (suite) => {
-    let totalRooms = 0;
-
-    // Check if suite and selectedRoomtypes are defined
-    if (suite && suite.selectedRoomtypes) {
-      for (const roomtype of roomtypes) {
-        const roomCount = suite.selectedRoomtypes[roomtype.id] || 0;
-        totalRooms += parseInt(roomCount, 10);
-      }
-    }
-
-    return totalRooms;
-  };
-
   function calculateRoomtypeCapacity(roomtype, beds) {
+    console.log("Calculating roomtype capacity for:", roomtype);
+
     return Object.keys(roomtype.bedOptions).reduce((totalCapacity, bedId) => {
-      const bed = beds.find((bed) => bed.id === bedId);
+      const bed = beds.find((bed) => bed.id === parseInt(bedId)); // Parse bedId to ensure correct comparison
+      console.log("Bed object:", bed); // Add this log
       if (bed) {
+        console.log(
+          `Bed ID: ${bedId}, Bed capacity: ${bed.selectedBedPersons}`
+        );
         const bedCapacity = bed.selectedBedPersons || 0;
         const bedCount = roomtype.bedOptions[bedId] || 0;
         return totalCapacity + bedCapacity * bedCount;
@@ -134,10 +127,10 @@ export function AdminPropertyOverview() {
       return { ...standard, capacity };
     });
   }
+
   function calculateTotalPersonsInSuite(suite, roomtypes, beds) {
     let totalPersons = 0;
 
-    // Check if suite, selectedRoomtypes, and beds are defined
     if (suite && suite.selectedRoomtypes && beds) {
       totalPersons = roomtypes.reduce((totalPersons, roomtype) => {
         const roomCount = suite.selectedRoomtypes[roomtype.id] || 0;
@@ -150,6 +143,19 @@ export function AdminPropertyOverview() {
     return totalPersons;
   }
 
+  const calculateTotalRoomsInSuite = (suite) => {
+    let totalRooms = 0;
+    // Check if suite and selectedRoomtypes are defined
+    if (suite && suite.selectedRoomtypes) {
+      for (const roomtype of roomtypes) {
+        const roomCount = suite.selectedRoomtypes[roomtype.id] || 0;
+        totalRooms += parseInt(roomCount, 10);
+      }
+    }
+
+    return totalRooms;
+  };
+
   return (
     <div className="PropertyContainer">
       <div className="PropertyContent">
@@ -161,7 +167,7 @@ export function AdminPropertyOverview() {
               <th className="ColoumnHeadline">Standard:</th>
               {propertieHeaders}
               {roomtypeHeaders}
-              <th className="ColoumnHeadlineBigger">Tot, Rms:</th>
+              <th className="ColoumnHeadlineBigger">Tot. Rms:</th>
               <th className="ColoumnHeadlineBigger">Tot. Prs:</th>
               <th className="ColoumnHeadline">Facilities:</th>
             </tr>
@@ -208,14 +214,14 @@ export function AdminPropertyOverview() {
                     <span className="OptionChoiceTotal">
                       {calculateTotalRoomsInSuite(suite)}
                     </span>
-                  </div>{" "}
+                  </div>
                 </td>
                 <td>
                   <div className="OptionChoice">
                     <span className="OptionChoiceTotal">
                       {calculateTotalPersonsInSuite(suite, roomtypes, beds)}
                     </span>
-                  </div>{" "}
+                  </div>
                 </td>
 
                 <td id="SuiteStandardFacilitieBox">
