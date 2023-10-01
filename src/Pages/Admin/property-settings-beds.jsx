@@ -7,19 +7,12 @@ import {
 import { EditButton, SaveButton } from "../../Components/buttons";
 import OutsideClickListener from "../../Components/event-listeners";
 
-export function DataTable({
-  roomtypes,
-  beds,
-  onEdit,
-  onDelete,
-  onSave,
-  setRoomtypes,
-}) {
+export function DataTable({ roomtypes, beds, onEdit, onSave, setRoomtypes }) {
   const bedHeaders =
     beds &&
     beds.map((bed) =>
       bed ? (
-        <th className="ColHeadline" key={bed.id}>
+        <th className="ColoumnHeadline" key={bed.id}>
           {bed.bedName}
         </th>
       ) : null
@@ -44,7 +37,7 @@ export function DataTable({
     <table className="PropertyTable">
       <thead>
         <tr>
-          <th className="ColHeadlineBigger">Roomtype:</th>
+          <th className="ColoumnHeadlineBigger">Roomtype:</th>
           <th></th>
           {bedHeaders}
         </tr>
@@ -52,7 +45,7 @@ export function DataTable({
       <tbody>
         {roomtypes.map((roomtype) => (
           <tr key={roomtype.id}>
-            <td className="ColHeadline">{roomtype.roomtypeName}</td>
+            <td className="ColoumnHeadline">{roomtype.roomtypeName}</td>
             <td className="EditBTNBox">
               <EditButton onEdit={() => onEdit(roomtype.id)} />
             </td>
@@ -61,11 +54,11 @@ export function DataTable({
                 {roomtype.isEditing ? (
                   <div className="InputWithDatalist">
                     <select
-                      className="smallInput"
+                      className="SmallInput"
                       value={
-                        (bed.bedOptions && roomtype.bedOptions[bed.id]) !==
-                        undefined
-                          ? roomtype.bedOptions[bed.id]
+                        roomtype.bedOptions &&
+                        roomtype.bedOptions[bed.id] !== undefined
+                          ? roomtype.bedOptions[bed.id].toString()
                           : "no_selection"
                       }
                       onChange={(e) =>
@@ -136,14 +129,17 @@ export function AdminSettingsBeds() {
   const handleEdit = (id) => {
     const updatedRoomtypes = roomtypes.map((roomtype) => {
       if (roomtype.id === id) {
-        setIsEditingRoomtype(true);
         return {
           ...roomtype,
           isEditing: !roomtype.isEditing,
         };
       }
-      return { ...roomtype, isEditing: false };
+      return {
+        ...roomtype,
+        isEditing: false,
+      };
     });
+
     setRoomtypes(updatedRoomtypes);
   };
 
