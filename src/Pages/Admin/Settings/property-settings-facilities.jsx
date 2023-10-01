@@ -3,10 +3,10 @@ import {
   getStandardsFromLocalStorage,
   saveStandardsToLocalStorage,
   getFacilitiesFromLocalStorage,
-} from "../../Components/local-storage";
-import { EditButton, SaveButton } from "../../Components/buttons";
-import OutsideClickListener from "../../Components/event-listeners";
-import CheckedIcon from "../../Images/CheckedIcon.png";
+} from "../../../Components/local-storage";
+import { EditButton, SaveButton } from "../../../Components/buttons";
+import OutsideClickListener from "../../../Components/event-listeners";
+import CheckedIcon from "../../../Images/CheckedIcon.png";
 
 export function DataTable({
   standards,
@@ -16,7 +16,7 @@ export function DataTable({
   onSave,
 }) {
   const facilitieHeaders = facilities.map((facilitie) => (
-    <th className="ColHeadline" key={facilitie.id}>
+    <th className="ColoumnHeadline" key={facilitie.id}>
       {facilitie.facilitieName}
     </th>
   ));
@@ -40,7 +40,7 @@ export function DataTable({
     <table className="PropertyTable">
       <thead>
         <tr>
-          <th className="ColHeadlineBigger">Standard:</th>
+          <th className="ColoumnHeadlineBigger">Standard:</th>
           <th></th>
           {facilitieHeaders}
         </tr>
@@ -48,7 +48,7 @@ export function DataTable({
       <tbody>
         {standards.map((standard) => (
           <tr key={standard.id}>
-            <td className="ColHeadline">{standard.standardName}</td>
+            <td className="ColoumnHeadline">{standard.standardName}</td>
             <td className="EditBTNBox">
               <EditButton onEdit={() => onEdit(standard.id)} />
             </td>

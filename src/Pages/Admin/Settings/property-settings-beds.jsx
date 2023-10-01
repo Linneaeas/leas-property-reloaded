@@ -3,9 +3,9 @@ import {
   getBedsFromLocalStorage,
   getRoomtypesFromLocalStorage,
   saveRoomtypesToLocalStorage,
-} from "../../Components/local-storage";
-import { EditButton, SaveButton } from "../../Components/buttons";
-import OutsideClickListener from "../../Components/event-listeners";
+} from "../../../Components/local-storage";
+import { EditButton, SaveButton } from "../../../Components/buttons";
+import OutsideClickListener from "../../../Components/event-listeners";
 
 export function DataTable({ roomtypes, beds, onEdit, onSave, setRoomtypes }) {
   const bedHeaders =

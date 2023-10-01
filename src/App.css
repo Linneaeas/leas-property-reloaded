@@ -24,6 +24,15 @@ h4 {
 .ColoumnHeadline {
   color: var(--darkPink);
 }
+.ColoumnHeadlineBigger {
+  color: var(--darkPink);
+  text-shadow: 2px 2px 2px rgb(196, 96, 149, 0.4);
+}
+.SmallHeadline {
+  font-size: 20px;
+  margin-top: 0.5rem;
+  text-shadow: 2px 1px 1px rgb(196, 96, 149, 0.2);
+}
 
 /*EFFECTS & BUTTONS & ICONS & INPUTS*/
 button:hover,
@@ -210,4 +219,57 @@ th {
   display: flex;
   gap: 1rem;
   position: sticky;
+}
+
+.Checkbox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 22px;
+  height: 22px;
+  background-color: rgb(196, 96, 149, 0.4);
+  border-radius: 50%;
+  outline: none;
+  position: relative;
+}
+
+input[type="checkbox"]:hover {
+  cursor: pointer;
+  scale: calc(120%);
+  background-color: var(--darkPink);
+  position: absolute;
+  display: block;
+}
+
+input[type="checkbox"]:checked {
+  content: url("Images/CheckedIcon.png");
+  background-color: transparent;
+}
+
+.OptionChoice {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: black;
+}
+
+.OptionChoiceFacilities {
+  display: flex;
+  gap: 10px;
+  font-size: 12px;
+}
+
+.OverviewRow {
+  padding: 1em;
+  box-shadow: 0 1.5px 1px 0 rgb(196, 96, 149, 0.3);
+}
+
+.OptionChoiceTotal {
+  color: var(--darkPink);
 }

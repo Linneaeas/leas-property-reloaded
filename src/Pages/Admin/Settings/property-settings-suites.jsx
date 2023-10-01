@@ -4,9 +4,9 @@ import {
   getSuitesFromLocalStorage,
   getStandardsFromLocalStorage,
   getPropertiesFromLocalStorage,
-} from "../../Components/local-storage";
-import { EditButton, SaveButton } from "../../Components/buttons";
-import OutsideClickListener from "../../Components/event-listeners";
+} from "../../../Components/local-storage";
+import { EditButton, SaveButton } from "../../../Components/buttons";
+import OutsideClickListener from "../../../Components/event-listeners";
 
 export function DataTable({
   suites,
@@ -17,7 +17,7 @@ export function DataTable({
   onSave,
 }) {
   const propertieHeaders = properties.map((propertie) => (
-    <th className="ColHeadline" key={propertie.id}>
+    <th className="ColoumnHeadline" key={propertie.id}>
       {propertie.propertieName}
     </th>
   ));
@@ -52,16 +52,16 @@ export function DataTable({
     <table className="PropertyTable">
       <thead>
         <tr>
-          <th className="ColHeadlineBigger">Suite:</th>
+          <th className="ColoumnHeadlineBigger">Suite:</th>
           <th></th>
-          <th className="ColHeadline">Standard:</th>
+          <th className="ColoumnHeadline">Standard:</th>
           {propertieHeaders}
         </tr>
       </thead>
       <tbody>
         {suites.map((suite) => (
           <tr key={suite.id}>
-            <td className="ColHeadline">{suite.suiteName}</td>
+            <td className="ColoumnHeadline">{suite.suiteName}</td>
             <td className="EditBTNBox">
               <EditButton onEdit={() => onEdit(suite.id)} />
             </td>

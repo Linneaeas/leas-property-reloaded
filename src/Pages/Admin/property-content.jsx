@@ -1,11 +1,10 @@
-import React from 'react'
-import { AdminPropertySuites } from './property-suites'
-import { AdminPropertyStandards } from './property-standards'
-import { AdminPropertyRoomtypes } from './property-roomtypes'
-import { AdminPropertyFacilities } from './property-facilities'
-import { AdminPropertyProperties } from './property-properties'
-import { AdminPropertyBeds } from './property-beds'
-
+import React from "react";
+import { AdminPropertySuites } from "../Admin/Content/property-suites";
+import { AdminPropertyStandards } from "../Admin/Content/property-standards";
+import { AdminPropertyRoomtypes } from "../Admin/Content/property-roomtypes";
+import { AdminPropertyFacilities } from "../Admin/Content/property-facilities";
+import { AdminPropertyProperties } from "../Admin/Content/property-properties";
+import { AdminPropertyBeds } from "../Admin/Content/property-beds";
 
 export function AdminPropertyContent() {
   return (
@@ -16,8 +15,6 @@ export function AdminPropertyContent() {
       <AdminPropertyBeds></AdminPropertyBeds>
       <AdminPropertyFacilities></AdminPropertyFacilities>
       <AdminPropertyProperties></AdminPropertyProperties>
-     
-   
     </div>
-  )
+  );
 }

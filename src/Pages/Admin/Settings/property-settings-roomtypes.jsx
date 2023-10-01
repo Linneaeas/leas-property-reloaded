@@ -3,9 +3,9 @@ import {
   getStandardsFromLocalStorage,
   saveStandardsToLocalStorage,
   getRoomtypesFromLocalStorage,
-} from "../../Components/local-storage";
-import { EditButton, SaveButton } from "../../Components/buttons";
-import OutsideClickListener from "../../Components/event-listeners";
+} from "../../../Components/local-storage";
+import { EditButton, SaveButton } from "../../../Components/buttons";
+import OutsideClickListener from "../../../Components/event-listeners";
 
 export function DataTable({
   standards,

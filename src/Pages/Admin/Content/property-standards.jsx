@@ -2,14 +2,14 @@ import React, { useState } from "react";
 import {
   saveStandardsToLocalStorage,
   getStandardsFromLocalStorage,
-} from "../../Components/local-storage";
+} from "../../../Components/local-storage";
 import {
   EditButton,
   SaveButton,
   DeleteButton,
   AddButton,
-} from "../../Components/buttons";
-import OutsideClickListener from "../../Components/event-listeners";
+} from "../../../Components/buttons";
+import OutsideClickListener from "../../../Components/event-listeners";
 
 function DataTableRow({
   item,
