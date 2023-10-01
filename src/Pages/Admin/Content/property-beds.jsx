@@ -158,16 +158,21 @@ export function AdminPropertyBeds() {
 
   const handleAddBed = () => {
     const isDuplicateName = beds.some((bed) => bed.bedName === newBedName);
+    const isSizeNotFilled = newBed.selectedBedSize.trim() === "";
+    const isPersonsNotFilled = newBed.selectedBedPersons.trim() === "";
+
     if (isDuplicateName) {
       alert("Bed with this name already exists. Please choose a new name.");
-      return;
-    }
-    if (newBedName.trim() !== "") {
+    } else if (newBedName.trim() === "") {
+      alert("Please enter a bed name.");
+    } else if (isSizeNotFilled || isPersonsNotFilled) {
+      alert("Please enter values for both Size and Persons.");
+    } else {
       const newBedData = {
         id: beds.length + 1,
         bedName: newBedName,
         selectedBedSize: newBed.selectedBedSize,
-        selectedBedPersons: newBed.selectedBedPersons,
+        selectedBedPersons: parseInt(newBed.selectedBedPersons),
         isEditing: false,
         editedName: "",
       };
@@ -178,16 +183,14 @@ export function AdminPropertyBeds() {
       setNewBed({
         id: beds.length + 1,
         bedName: "",
-        selectedBedSize: "", // Reset to empty string
-        selectedBedPersons: "", // Reset to empty string
+        selectedBedSize: "",
+        selectedBedPersons: "",
         isEditing: false,
         editedName: "",
       });
 
       setShowInput(false);
       setIsAddingNewBed(false);
-    } else {
-      alert("Please enter a bed name.");
     }
   };
 
@@ -222,7 +225,7 @@ export function AdminPropertyBeds() {
           isEditing: false,
           bedName: item.editedName,
           selectedBedSize: item.selectedBedSize,
-          selectedBedPersons: item.selectedBedPersons,
+          selectedBedPersons: parseInt(newBed.selectedBedPersons),
         };
       }
       return item;
