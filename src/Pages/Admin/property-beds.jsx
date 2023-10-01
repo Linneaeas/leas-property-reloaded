@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   saveBedsToLocalStorage,
   getBedsFromLocalStorage,
@@ -11,22 +11,25 @@ import {
 } from "../../Components/buttons";
 import OutsideClickListener from "../../Components/event-listeners";
 
-function DataTableRow({ item, beds, onEdit, onDelete, onSave, setBeds }) {
-  const handleBedSizeChange = (e) => {
-    const updatedBeds = beds.map((bed) =>
-      bed.id === item.id ? { ...bed, selectedBedSize: e.target.value } : bed
-    );
-    setBeds(updatedBeds);
+export function CreateNewBed(id) {
+  return {
+    id,
+    bedName: "",
+    selectedBedSize: "",
+    selectedBedPersons: "",
+    isEditing: false,
+    editedName: "",
   };
-  const handleBedPersonsChange = (e) => {
-    const updatedBeds = beds.map((bed) =>
-      bed.id === item.id
-        ? { ...bed, selectedBedPersons: parseInt(e.target.value, 10) || 0 }
-        : bed
-    );
-    setBeds(updatedBeds);
-  };
+}
 
+export function DataTableRow({
+  item,
+  beds,
+  onEdit,
+  onDelete,
+  onSave,
+  setBeds,
+}) {
   return (
     <tr className="DatatableRowOnEdit" key={item.id}>
       <td className="EditBTNBox">
@@ -59,7 +62,14 @@ function DataTableRow({ item, beds, onEdit, onDelete, onSave, setBeds }) {
               className="SmallInput"
               type="text"
               value={item.selectedBedSize}
-              onChange={handleBedSizeChange}
+              onChange={(e) => {
+                const updatedBeds = beds.map((bed) =>
+                  bed.id === item.id
+                    ? { ...bed, selectedBedSize: e.target.value }
+                    : bed
+                );
+                setBeds(updatedBeds);
+              }}
               placeholder="CM"
               maxLength="3"
             />
@@ -75,7 +85,14 @@ function DataTableRow({ item, beds, onEdit, onDelete, onSave, setBeds }) {
               className="SmallInput"
               type="text"
               value={item.selectedBedPersons}
-              onChange={handleBedPersonsChange}
+              onChange={(e) => {
+                const updatedBeds = beds.map((bed) =>
+                  bed.id === item.id
+                    ? { ...bed, selectedBedPersons: e.target.value }
+                    : bed
+                );
+                setBeds(updatedBeds);
+              }}
               placeholder="PRS"
               maxLength="3"
             />
@@ -96,13 +113,6 @@ function DataTableRow({ item, beds, onEdit, onDelete, onSave, setBeds }) {
 }
 
 function DataTable({ beds, onEdit, onDelete, onSave, setBeds }) {
-  if (!beds) {
-    return (
-      <div className="error-message">
-        Error: Beds data is not available. Please try again later.
-      </div>
-    );
-  }
   return (
     <table className="PropertyTable">
       <thead>
@@ -117,12 +127,12 @@ function DataTable({ beds, onEdit, onDelete, onSave, setBeds }) {
       <tbody>
         {beds.map((item) => (
           <DataTableRow
-            item={item}
             key={item.id}
+            item={item}
+            beds={beds}
             onEdit={onEdit}
             onDelete={onDelete}
             onSave={onSave}
-            beds={beds}
             setBeds={setBeds}
           />
         ))}
@@ -137,53 +147,47 @@ export function AdminPropertyBeds() {
   const [newBedName, setNewBedName] = useState("");
   const [isAddingNewBed, setIsAddingNewBed] = useState(false);
   const [isEditingBed, setIsEditingBed] = useState(false);
-  const [newBed, setNewBed] = useState({
-    id: beds.length + 1,
-    bedName: "",
-    isEditing: false,
-    editedName: "",
-    selectedBedSize: "",
-    selectedBedPersons: "",
-  });
+  const [newBed, setNewBed] = useState(CreateNewBed(beds.length + 1));
 
   const handleAddButtonClick = () => {
-    setIsAddingNewBed(true);
-    setShowInput(true);
+    setNewBed(CreateNewBed(beds.length + 1));
     setNewBedName("");
-    setNewBed("");
+    setShowInput(true);
+    setIsAddingNewBed(true);
   };
 
   const handleAddBed = () => {
-    const { selectedBedSize, selectedBedPersons } = newBed;
     const isDuplicateName = beds.some((bed) => bed.bedName === newBedName);
-
     if (isDuplicateName) {
       alert("Bed with this name already exists. Please choose a new name.");
       return;
     }
-
-    if (
-      newBedName.trim() !== "" &&
-      newBed.selectedBedSize.trim() !== "" &&
-      newBed.selectedBedPersons.trim() !== ""
-    ) {
-      const newBedToAdd = {
+    if (newBedName.trim() !== "") {
+      const newBedData = {
         id: beds.length + 1,
         bedName: newBedName,
-        isEditing: false,
-        editedName: "",
         selectedBedSize: newBed.selectedBedSize,
         selectedBedPersons: newBed.selectedBedPersons,
+        isEditing: false,
+        editedName: "",
       };
 
-      const updatedBeds = [...beds, newBedToAdd];
+      const updatedBeds = [...beds, newBedData];
       setBeds(updatedBeds);
       saveBedsToLocalStorage(updatedBeds);
+      setNewBed({
+        id: beds.length + 1,
+        bedName: "",
+        selectedBedSize: "", // Reset to empty string
+        selectedBedPersons: "", // Reset to empty string
+        isEditing: false,
+        editedName: "",
+      });
 
       setShowInput(false);
       setIsAddingNewBed(false);
     } else {
-      alert("Please enter a bed name, size, and amount of persons.");
+      alert("Please enter a bed name.");
     }
   };
 
@@ -195,24 +199,21 @@ export function AdminPropertyBeds() {
           ...item,
           isEditing: !item.isEditing,
           editedName: item.bedName,
+          selectedBedSize: item.selectedBedSize,
+          selectedBedPersons: item.selectedBedPersons,
         };
       }
       return item;
     });
 
     const editedBed = updatedBeds.find((item) => item.id === id);
-    setNewBed({
-      ...editedBed,
-      selectedBedSize: editedBed.selectedBedSize || "",
-      selectedBedPersons: editedBed.selectedBedPersons || "",
-    });
+    setNewBed(editedBed);
 
     setBeds(updatedBeds);
     saveBedsToLocalStorage(updatedBeds);
   };
 
   const handleSave = (id) => {
-    const uniqueId = new Date().getTime();
     const updatedBeds = beds.map((item) => {
       if (item.id === id) {
         setIsEditingBed(false);
@@ -220,9 +221,8 @@ export function AdminPropertyBeds() {
           ...item,
           isEditing: false,
           bedName: item.editedName,
-          selectedBedSize: item.selectedBedSize || "",
-          id: uniqueId,
-          selectedBedPersons: item.selectedBedPersons || "",
+          selectedBedSize: item.selectedBedSize,
+          selectedBedPersons: item.selectedBedPersons,
         };
       }
       return item;
@@ -260,13 +260,10 @@ export function AdminPropertyBeds() {
           <DataTable
             beds={beds}
             onEdit={handleEdit}
-            onSave={handleSave}
             onDelete={handleDelete}
+            onSave={handleSave}
             setBeds={setBeds}
-            isAddingNewBed={isAddingNewBed}
-            isEditingBed={isEditingBed}
             handleOutsideClick={handleOutsideClick}
-            newBed={newBed}
           />
           {!showInput && <AddButton onAdd={handleAddButtonClick} />}
           {showInput && (
@@ -287,23 +284,12 @@ export function AdminPropertyBeds() {
                 className="SmallInput"
                 type="text"
                 value={newBed.selectedBedSize}
-                onChange={(e) => {
-                  const input = e.target.value;
-                  const truncatedInput = input.slice(0, 3);
-
+                onChange={(e) =>
                   setNewBed((prevNewBed) => ({
                     ...prevNewBed,
-                    selectedBedSize: truncatedInput,
-                  }));
-
-                  const updatedBeds = beds.map((bed) =>
-                    bed.id === newBed.id
-                      ? { ...bed, selectedBedSize: truncatedInput }
-                      : bed
-                  );
-
-                  setBeds(updatedBeds);
-                }}
+                    selectedBedSize: e.target.value,
+                  }))
+                }
                 placeholder="CM"
                 maxLength="3"
               />
@@ -311,23 +297,12 @@ export function AdminPropertyBeds() {
                 className="SmallInput"
                 type="text"
                 value={newBed.selectedBedPersons}
-                onChange={(e) => {
-                  const input = e.target.value;
-                  const truncatedInput = input.slice(0, 3);
-
+                onChange={(e) =>
                   setNewBed((prevNewBed) => ({
                     ...prevNewBed,
-                    selectedBedPersons: truncatedInput,
-                  }));
-
-                  const updatedBeds = beds.map((bed) =>
-                    bed.id === newBed.id
-                      ? { ...bed, selectedBedPersons: truncatedInput }
-                      : bed
-                  );
-
-                  setBeds(updatedBeds);
-                }}
+                    selectedBedPersons: e.target.value,
+                  }))
+                }
                 placeholder="PRS"
                 maxLength="3"
               />
