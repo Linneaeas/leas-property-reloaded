@@ -62,6 +62,8 @@ export function DataTable({
                       checked={
                         standard.facilitieOptions &&
                         standard.facilitieOptions[facilitie.id]
+                          ? standard.facilitieOptions[facilitie.id]
+                          : false
                       }
                       onChange={(e) =>
                         handleFacilitieOptionChange(
