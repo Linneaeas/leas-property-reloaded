@@ -6,7 +6,7 @@ import { AdminSettingsBeds } from "../Admin/Settings/property-settings-beds";
 
 export function AdminPropertySettings() {
   return (
-    <div>
+    <div className="PropertySettingsContainer">
       <AdminSettingsSuites></AdminSettingsSuites>
       <AdminSettingsFacilities></AdminSettingsFacilities>
       <AdminSettingsRoomtypes></AdminSettingsRoomtypes>

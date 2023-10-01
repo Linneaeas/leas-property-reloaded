@@ -180,7 +180,7 @@ export function AdminSettingsFacilities() {
   return (
     <div className="PropertyContainer">
       <OutsideClickListener onOutsideClick={handleOutsideClick}>
-        <div className="PropertyContent">
+        <div className="PropertySettings">
           <h1>FACILITIES</h1>
           <h2>Standards & facilities</h2>
           <DataTable
@@ -193,6 +193,7 @@ export function AdminSettingsFacilities() {
             handleOutsideClick={handleOutsideClick}
           />
         </div>
+        <div className="DividerLine"></div>
       </OutsideClickListener>
     </div>
   );

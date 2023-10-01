@@ -196,10 +196,15 @@ input[type="text"],
   margin-right: 10rem;
   gap: 2rem;
 }
+.PropertySettingsContainer {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
 .PropertyContainer {
   display: flex;
   justify-content: center;
-  padding: 3em;
 }
 .PropertyContent {
   display: flex;
@@ -207,8 +212,18 @@ input[type="text"],
   justify-content: center;
   flex-direction: column;
   gap: 1rem;
-  margin-top: 1em;
+  padding: 3rem;
 }
+.PropertySettings {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 3em;
+  margin-top: 3em;
+}
+
 .PropertyTable td,
 th {
   text-align: left;
@@ -272,4 +287,10 @@ input[type="checkbox"]:checked {
 
 .OptionChoiceTotal {
   color: var(--darkPink);
+}
+
+.DividerLine {
+  height: 10px;
+  width: 30em;
+  box-shadow: 0 1.5px 1px 0 rgb(196, 96, 149, 0.3);
 }

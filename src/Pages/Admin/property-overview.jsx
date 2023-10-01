@@ -53,7 +53,6 @@ export function AdminPropertyOverview() {
 
   useEffect(() => {
     const savedBeds = getBedsFromLocalStorage() || [];
-    console.log("Saved beds:", savedBeds);
     if (savedBeds) {
       setBeds(savedBeds);
     }
@@ -99,15 +98,9 @@ export function AdminPropertyOverview() {
   };
 
   function calculateRoomtypeCapacity(roomtype, beds) {
-    console.log("Calculating roomtype capacity for:", roomtype);
-
     return Object.keys(roomtype.bedOptions).reduce((totalCapacity, bedId) => {
-      const bed = beds.find((bed) => bed.id === parseInt(bedId)); // Parse bedId to ensure correct comparison
-      console.log("Bed object:", bed); // Add this log
+      const bed = beds.find((bed) => bed.id === parseInt(bedId)); //
       if (bed) {
-        console.log(
-          `Bed ID: ${bedId}, Bed capacity: ${bed.selectedBedPersons}`
-        );
         const bedCapacity = bed.selectedBedPersons || 0;
         const bedCount = roomtype.bedOptions[bedId] || 0;
         return totalCapacity + bedCapacity * bedCount;
@@ -145,7 +138,6 @@ export function AdminPropertyOverview() {
 
   const calculateTotalRoomsInSuite = (suite) => {
     let totalRooms = 0;
-    // Check if suite and selectedRoomtypes are defined
     if (suite && suite.selectedRoomtypes) {
       for (const roomtype of roomtypes) {
         const roomCount = suite.selectedRoomtypes[roomtype.id] || 0;
