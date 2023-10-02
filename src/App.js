@@ -3,6 +3,7 @@ import "./App.css";
 import LoginPage from "./Pages/login-page";
 import { AdminNavigation } from "./Pages/Admin/admin-navigation";
 
+//Syftet med min “App” komponent ar att hantera login och visa innehåll utifrån vem som loggar in. Jag valde att anvanda en basic login function för att fokusera på innehållet i appen.
 function App() {
   const adminUser = {
     username: "Admin",

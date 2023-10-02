@@ -9,7 +9,7 @@ import OutsideClickListener from "../../../Components/event-listeners";
 
 export function DataTable({ roomtypes, beds, onEdit, onSave, setRoomtypes }) {
   const bedHeaders =
-    beds &&
+    beds && //Har lagt till detta villkor for att kolla att det finns sängar att mapa for att unvika errors "can't read properties of..." sa det finns ett alternativ (null) att leverera om det inte hittas
     beds.map((bed) =>
       bed ? (
         <th className="ColoumnHeadline" key={bed.id}>
@@ -25,7 +25,7 @@ export function DataTable({ roomtypes, beds, onEdit, onSave, setRoomtypes }) {
             ...roomtype,
             bedOptions: {
               ...roomtype.bedOptions,
-              [bedId]: parseInt(value, 10),
+              [bedId]: parseInt(value, 10), //ParseInt!
             },
           }
         : roomtype
@@ -57,7 +57,7 @@ export function DataTable({ roomtypes, beds, onEdit, onSave, setRoomtypes }) {
                       className="SmallInput"
                       value={
                         roomtype.bedOptions &&
-                        roomtype.bedOptions[bed.id] !== undefined
+                        roomtype.bedOptions[bed.id] !== undefined //Villkor för att sidan ej ska krasha(den har&overview) om det finns odefinerade/ej finns roomtypes och bedOptions som matchar.("can't read properties of...")+ undika varning nar man skriver i input faltet: "An uncontrolled value..."
                           ? roomtype.bedOptions[bed.id].toString()
                           : "no_selection"
                       }

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import {LoginBTN} from "../Components/buttons";
 
 export default function LoginPage({ Login, error }) {
   const [details, setDetails] = useState({ username: "", password: "" });
@@ -13,14 +12,11 @@ export default function LoginPage({ Login, error }) {
     <div className="LoginPage">
       <h1 className="LoginPageHeader">LOGIN</h1>
       <form onSubmit={submitHandler}>
-
-      <div className="LoginFormContainer">
+        <div className="LoginFormContainer">
           {error !== "" ? <div className="error">{error}</div> : ""}
 
           <div className="LoginFormGroup">
-            <label 
-              htmlFor="username" 
-              className="LoginLabel">
+            <label htmlFor="username" className="LoginLabel">
               Username:{" "}
             </label>
             <input
@@ -29,13 +25,13 @@ export default function LoginPage({ Login, error }) {
               id="usernameInput"
               onChange={(e) =>
                 setDetails({ ...details, username: e.target.value })
-              }value={details.username}/>
+              }
+              value={details.username}
+            />
           </div>
 
           <div className="LoginFormGroup">
-            <label 
-              htmlFor="password" 
-              className="LoginLabel">
+            <label htmlFor="password" className="LoginLabel">
               Password:{" "}
             </label>
             <input
@@ -44,14 +40,12 @@ export default function LoginPage({ Login, error }) {
               id="passwordInput"
               onChange={(e) =>
                 setDetails({ ...details, password: e.target.value })
-              }value={details.password}/>
+              }
+              value={details.password}
+            />
           </div>
 
-          <input 
-          className="LoginBTN" 
-          type="submit" 
-          value="LOGIN" />
-          
+          <input className="LoginBTN" type="submit" value="LOGIN" />
         </div>
       </form>
     </div>

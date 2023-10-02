@@ -21,6 +21,7 @@ export function DataTable({
       {propertie.propertieName}
     </th>
   ));
+
   const handleStandardOptionChange = (suiteId, value) => {
     const updatedSuites = suites.map((suite) =>
       suite.id === suiteId

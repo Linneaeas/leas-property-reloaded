@@ -46,6 +46,16 @@ a:hover {
   color: var(--darkerHover);
   scale: 120%;
 }
+select,
+input[type="text"],
+[type="password"] {
+  background: rgb(196, 96, 149, 0.4);
+  border-radius: 25px;
+  border: none;
+  height: 30px;
+  font-family: inherit;
+  font-size: 15px;
+}
 .LoginBTN,
 .LogoutBTN {
   font-family: inherit;
@@ -90,22 +100,37 @@ a:hover {
 .CheckedIcon {
   width: 20px;
 }
-select,
-input[type="text"],
-[type="password"] {
-  background: rgb(196, 96, 149, 0.4);
-  border-radius: 25px;
-  border: none;
-  height: 30px;
-  font-family: inherit;
-  font-size: 15px;
+.Checkbox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  width: 22px;
+  height: 22px;
+  background-color: rgb(196, 96, 149, 0.4);
+  border-radius: 50%;
+  outline: none;
+  position: relative;
+}
+input[type="checkbox"]:hover {
+  cursor: pointer;
+  scale: calc(120%);
+  background-color: var(--darkPink);
+  position: absolute;
+  display: block;
+}
+input[type="checkbox"]:checked {
+  content: url("Images/CheckedIcon.png");
+  background-color: transparent;
 }
 .SmallInput {
   width: 3rem;
 }
-.NameBox {
-  width: 8em;
-}
+
 /*LOGIN PAGE*/
 .LoginPageHeader {
   display: flex;
@@ -151,6 +176,7 @@ input[type="text"],
   font-size: 20px;
   color: var(--white);
 }
+
 /*DROPDOWN*/
 .Dropdown {
   position: relative;
@@ -187,43 +213,12 @@ input[type="text"],
   padding: 0.25rem 0.75rem 0.25rem 0.75rem;
   display: flex;
 }
-/*PAGE CONTENT*/
-.PropertyContentContainer {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-left: 10rem;
-  margin-right: 10rem;
-  gap: 2rem;
-}
-.PropertySettingsContainer {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-}
 
+/*PAGE: INCOMMON*/
 .PropertyContainer {
   display: flex;
   justify-content: center;
 }
-.PropertyContent {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 1rem;
-  padding: 3rem;
-}
-.PropertySettings {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 1rem;
-  margin-bottom: 3em;
-  margin-top: 3em;
-}
-
 .PropertyTable td,
 th {
   text-align: left;
@@ -235,38 +230,6 @@ th {
   gap: 1rem;
   position: sticky;
 }
-
-.Checkbox {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-input[type="checkbox"] {
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  width: 22px;
-  height: 22px;
-  background-color: rgb(196, 96, 149, 0.4);
-  border-radius: 50%;
-  outline: none;
-  position: relative;
-}
-
-input[type="checkbox"]:hover {
-  cursor: pointer;
-  scale: calc(120%);
-  background-color: var(--darkPink);
-  position: absolute;
-  display: block;
-}
-
-input[type="checkbox"]:checked {
-  content: url("Images/CheckedIcon.png");
-  background-color: transparent;
-}
-
 .OptionChoice {
   display: flex;
   justify-content: center;
@@ -274,23 +237,56 @@ input[type="checkbox"]:checked {
   color: black;
 }
 
+/*PAGE: CONTENT*/
+.PropertyContentContainer {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-left: 10rem;
+  margin-right: 10rem;
+  gap: 2rem;
+}
+.PropertyContent {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 3rem;
+}
+
+/*PAGE: SETTINGS*/
+.PropertySettingsContainer {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-bottom: 10em;
+}
+.PropertySettings {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 3em;
+  margin-top: 3em;
+}
+.DividerLine {
+  height: 10px;
+  width: 30em;
+  box-shadow: 0 1.5px 1px 0 rgb(196, 96, 149, 0.3);
+}
+
+/*PAGE: OVERVIEW*/
 .OptionChoiceFacilities {
   display: flex;
   gap: 10px;
   font-size: 12px;
 }
-
 .OverviewRow {
   padding: 1em;
   box-shadow: 0 1.5px 1px 0 rgb(196, 96, 149, 0.3);
 }
-
 .OptionChoiceTotal {
   color: var(--darkPink);
-}
-
-.DividerLine {
-  height: 10px;
-  width: 30em;
-  box-shadow: 0 1.5px 1px 0 rgb(196, 96, 149, 0.3);
 }

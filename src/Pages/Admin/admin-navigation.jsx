@@ -4,90 +4,95 @@ import React, { useState, useRef } from "react";
 import OutsideClickListener from "../../Components/event-listeners";
 import { AdminPropertyContent } from "./property-content";
 import { AdminPropertySettings } from "./property-settings";
-import { AdminPropertyOverview } from "./property-overview"
-
+import { AdminPropertyOverview } from "./property-overview";
+//Här har jag min navigerings funktion där jag använder Routing för att navigera mellan olika sidor.
+// Här hanterar jag även “dropdown” menyns synlighet och använder en OutsideClickListener som finns i alla komponenter.
 export function AdminNavigation({ Logout }) {
-
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const dropdownRef = useRef(null);
 
   const toggleDropdown = () => {
-    setDropdownVisible(!dropdownVisible);};
+    setDropdownVisible(!dropdownVisible);
+  };
 
   const handleLinkClick = () => {
-    setDropdownVisible(false);};
+    setDropdownVisible(false);
+  };
 
   const handleOutsideClick = () => {
-    setDropdownVisible(false);};
+    setDropdownVisible(false);
+  };
 
   return (
     <div className="AdminNavigationContainer">
       <OutsideClickListener onOutsideClick={handleOutsideClick}>
-
         <nav className="AdminNavigation">
-
           <div className="LogoutButton">
             {Logout && <LogoutButton Logout={Logout} />}
           </div>
 
           <div className="AdminNavigationContent">
-
-            <div className="Dropdown" 
-            ref={dropdownRef}>
-
-              <button className="NavigationLink" 
-                onClick={toggleDropdown}>
+            <div className="Dropdown" ref={dropdownRef}>
+              <button className="NavigationLink" onClick={toggleDropdown}>
                 PROPERTY
               </button>
 
-              <div className={`DropdownMenu ${dropdownVisible ? "visible" : ""}`}>
-
+              <div
+                className={`DropdownMenu ${dropdownVisible ? "visible" : ""}`}
+              >
                 <div className="DropdownLinkContainer">
-                  <Link className="DropdownLink"
+                  <Link
+                    className="DropdownLink"
                     to="/Overview"
-                    onClick={handleLinkClick}>
+                    onClick={handleLinkClick}
+                  >
                     Overview
                   </Link>
                 </div>
 
                 <div className="DropdownLinkContainer">
-                  <Link className="DropdownLink"
+                  <Link
+                    className="DropdownLink"
                     to="/PropertyContent"
-                    onClick={handleLinkClick}>
+                    onClick={handleLinkClick}
+                  >
                     Content
                   </Link>
                 </div>
 
                 <div className="DropdownLinkContainer">
-                  <Link className="DropdownLink"
+                  <Link
+                    className="DropdownLink"
                     to="/PropertySettings"
-                    onClick={handleLinkClick}>
+                    onClick={handleLinkClick}
+                  >
                     Settings
                   </Link>
                 </div>
-
-              </div>{/*DropdownMenu*/}
-            </div>{/*Dropdown*/}
+              </div>
+              {/*DropdownMenu*/}
+            </div>
+            {/*Dropdown*/}
 
             <div className="Dropdown">
-              <button className="NavigationLink" > REVENUE </button>
+              <button className="NavigationLink"> REVENUE </button>
             </div>
 
             <div className="Dropdown">
-              <button className="NavigationLink" > FINANCIAL </button>
+              <button className="NavigationLink"> FINANCIAL </button>
             </div>
 
             <div className="Dropdown">
-              <button className="NavigationLink" > ADVANCED </button>
+              <button className="NavigationLink"> ADVANCED </button>
             </div>
 
             <div className="Dropdown">
-              <button className="NavigationLink" > MISCELLANIOUS </button>
+              <button className="NavigationLink"> MISCELLANIOUS </button>
             </div>
-
-          </div>{/*AdminNavigationContent*/}
-        </nav>{/*AdminNavigation*/}
-
+          </div>
+          {/*AdminNavigationContent*/}
+        </nav>
+        {/*AdminNavigation*/}
       </OutsideClickListener>
       <Routes>
         <Route path="/Overview" element={<AdminPropertyOverview />} />
