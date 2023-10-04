@@ -25,7 +25,7 @@ export function DataTable({ roomtypes, beds, onEdit, onSave, setRoomtypes }) {
             ...roomtype,
             bedOptions: {
               ...roomtype.bedOptions,
-              [bedId]: parseInt(value, 10), //ParseInt!
+              [bedId]: parseInt(value, 10), //ParseInt! INTRESSANT Här[] skapas ej en array, den skapar en key med ett värde of the `bedId`
             },
           }
         : roomtype

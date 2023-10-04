@@ -5,8 +5,7 @@ import OutsideClickListener from "../../Components/event-listeners";
 import { AdminPropertyContent } from "./property-content";
 import { AdminPropertySettings } from "./property-settings";
 import { AdminPropertyOverview } from "./property-overview";
-//Här har jag min navigerings funktion där jag använder Routing för att navigera mellan olika sidor.
-// Här hanterar jag även “dropdown” menyns synlighet och använder en OutsideClickListener som finns i alla komponenter.
+
 export function AdminNavigation({ Logout }) {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const dropdownRef = useRef(null);
